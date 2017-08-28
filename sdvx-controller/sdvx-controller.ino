@@ -11,7 +11,6 @@ int clockPin = 7;
 //Define variables to hold the data 
 //for shift register.
 //starting with a non-zero numbers can help
-//troubleshoot
 
 byte switchVar1 = 72;  //01001000
 char button[] = {
@@ -29,8 +28,8 @@ long timer = millis();
 
 void setup() {
   //start serial
-  Serial.begin(9600);
-  while (!Serial) ;
+  //Serial.begin(9600);
+  //while (!Serial) ;
   Keyboard.begin();
   Mouse.begin();
   //define pin modes
@@ -47,7 +46,7 @@ void loop() {
   delayMicroseconds(20);
   digitalWrite(latchPin,0);//set it to 0 to transmit data serially  
   switchVar1 = shiftIn(dataPin, clockPin);//shiftin the data and store 
-  Serial.println(switchVar1, BIN);//REMOVE FOR FINAL VERSION****************************
+  //Serial.println(switchVar1, BIN);//REMOVE FOR FINAL VERSION****************************
   
   
 /************************************************************************Button Check Section*/
@@ -85,7 +84,10 @@ void loop() {
   if (millis() - timer > 10){ //refresh rate at which we send data to the mouse
     int deltaXM = map(deltaX,-500,500,-100,100);//sensitivity map 1/5 factor.
     int deltaYM = map(deltaY,-500,500,-100,100);
-    Mouse.move(deltaXM,deltaYM);
+    if(deltaXM != 0 || deltaYM != 0){//only send position data if the mouse moved.
+      Mouse.move(deltaXM,deltaYM);
+    }
+    
     deltaX = 0 ; //reset delta
     deltaY = 0;
     timer = millis();
