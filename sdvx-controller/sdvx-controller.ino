@@ -8,10 +8,6 @@ int latchPin = 8;
 int dataPin = 9;
 int clockPin = 7;
 
-//Define variables to hold the data 
-//for shift register.
-//starting with a non-zero numbers can help
-
 byte switchVar1 = 72;  //01001000
 char button[] = {
   'a', 'b', 'c', 'd', 'l', 'r', 's','p'}; //array of char to send
@@ -27,16 +23,12 @@ long deltaY = 0;
 long timer = millis();
 
 void setup() {
-  //start serial
-  //Serial.begin(9600);
-  //while (!Serial) ;
   Keyboard.begin();
   Mouse.begin();
   //define pin modes
   pinMode(latchPin, OUTPUT);
   pinMode(clockPin, OUTPUT); 
   pinMode(dataPin, INPUT);
-  
 }
 
 void loop() {
@@ -46,10 +38,9 @@ void loop() {
   delayMicroseconds(20);
   digitalWrite(latchPin,0);//set it to 0 to transmit data serially  
   switchVar1 = shiftIn(dataPin, clockPin);//shiftin the data and store 
-  //Serial.println(switchVar1, BIN);//REMOVE FOR FINAL VERSION****************************
   
-  
-/************************************************************************Button Check Section*/
+//BUTTONS
+
   for (int n=0; n<=7; n++)//read trough all 7 positions
   {
     if (switchVar1 & (1 << n) ){
@@ -65,8 +56,9 @@ void loop() {
       holding[n] = false;//not holding anymore
     }
   }
+
   
-/*********************************EncoderSection**************************************************/
+//ROTARY ENCODERS
 
   long newPositionX = myEncRight.read();//Reads right encodder
   long newPositionY = myEncLeft.read();//Reads left encoder
