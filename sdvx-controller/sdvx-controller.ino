@@ -45,7 +45,7 @@ void loop() {
   digitalWrite(latchPin,1);//set it to 1 to collect parallel data
   delayMicroseconds(20);
   digitalWrite(latchPin,0);//set it to 0 to transmit data serially  
-  switchVar1 = shiftIn(dataPin, clockPin);//shiftin the data and store 
+  switchVar1 = shiftIn(dataPin, clockPin,MSBFIRST);//shiftin the data and store 
   //Serial.println(switchVar1, BIN);//REMOVE FOR FINAL VERSION****************************
   
   
@@ -95,21 +95,21 @@ void loop() {
   delay(5);
 }
 }
-byte shiftIn(int myDataPin, int myClockPin) {
- 
-  byte myDataIn = 0;  
-  for (int i = 7; i >= 0; i--)
-  {
-    digitalWrite(myClockPin, 0);                //pulsing the clockPin to read consequent bits/inputs of 4021
-    delayMicroseconds(1);                     //the responsiveness of 4021
-    if (digitalRead(myDataPin)) {               //if i-th input of 4021 is 1
-      myDataIn = myDataIn |(1 << i);            //sets i-th bit of myDataIn byte to 1
-    }
-    digitalWrite(myClockPin, 1);
-  }
- 
-  return myDataIn;
-}
+//byte shiftIn(int myDataPin, int myClockPin) {
+// 
+//  byte myDataIn = 0;  
+//  for (int i = 7; i >= 0; i--)
+//  {
+//    digitalWrite(myClockPin, 0);                //pulsing the clockPin to read consequent bits/inputs of 4021
+//    delayMicroseconds(1);                     //the responsiveness of 4021
+//    if (digitalRead(myDataPin)) {               //if i-th input of 4021 is 1
+//      myDataIn = myDataIn |(1 << i);            //sets i-th bit of myDataIn byte to 1
+//    }
+//    digitalWrite(myClockPin, 1);
+//  }
+// 
+//  return myDataIn;
+//}
 
 
 
